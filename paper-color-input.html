@@ -97,11 +97,18 @@ There are three different main configurations all 3 elements allow: `circle`, `s
 				 */
 				value: {
 					type: Object,
+					value: {
+	          red: undefined,
+	          green: undefined,
+	          blue: undefined,
+	          alpha: 1
+	        },
 					notify: true
 				},
 				valueAsHex: {
 					type: String,
 					notify: true,
+					reflectToAttribute: true,
 					observer: '_setValueFromHex'
 				},
 				/**
@@ -213,6 +220,9 @@ There are three different main configurations all 3 elements allow: `circle`, `s
 				}
 			},
 			_setValueFromHex: function(){
+				if (!this.valueAsHex || this.valueAsHex === 'transparent') {
+					return;
+				}
 				var hex = this.valueAsHex;
 				var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 				var hex = hex.replace(shorthandRegex, function(m, r, g, b) {
